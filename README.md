@@ -117,38 +117,6 @@ A SAS macro toolkit for automated data quality control. Applies integrity constr
    - NOTE messages in the SAS log for traceability.  
   
  Example:  
- ~~~sas
-## `%cat_unique_not_missing_judgment()` macro <a name="catuniquenotmissingjudgment-macro-3"></a> ######
-
-Macro:      cat_unique_not_missing_judgment
-
- Purpose:    Apply a PRIMARY KEY integrity constraint on one or more key variables in a 
-             dataset and judge whether the dataset satisfies both uniqueness and 
-             non-missing requirements.
-
- Parameters:
-   lib=                Library name (default=WORK).
-   ds=                 Dataset name (required).
-   key=                Key variable(s) to be checked for uniqueness and non-missing 
-                       (default=NAME).
-   rule_no=            Rule number identifier. If omitted, &SYSINDEX is used.
-   auto_delete_rule=   Y/N. If Y (default), the integrity constraint is deleted 
-                       automatically after the check.
-
- Process:
-   1. Create a temporary PRIMARY KEY integrity constraint on the specified key(s).
-      (PRIMARY KEY enforces both uniqueness and NOT NULL.)
-   2. Check if the constraint is successfully applied.
-   3. Output judgment results (OK/NG) with icons and formatted print.
-   4. Optionally delete the integrity constraint.
-   5. Write results to the SAS log for documentation.
-
- Output:
-   - A dataset named CAT_JUDGE_<rule_no> containing the judgment result.
-   - ODS HTML/PRINT output with visual OK/NG indicators.
-   - NOTE messages in the SAS log for traceability.
-
- Example:
 ~~~sas
 data class2;
 set sashelp.class;
