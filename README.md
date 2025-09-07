@@ -88,3 +88,144 @@ A SAS macro toolkit for automated data quality control. Applies integrity constr
 
 
 ---
+
+## `%cat_unique_not_missing_judgment()` macro <a name="catuniquenotmissingjudgment-macro-3"></a> ######
+ Purpose:    Apply a PRIMARY KEY integrity constraint on one or more key variables in a dataset and judge whether the dataset satisfies both uniqueness and non-missing requirements.  
+
+ Parameters:  
+ ~~~text
+   lib=                Library name (default=WORK).
+   ds=                 Dataset name (required).
+   key=                Key variable(s) to be checked for uniqueness and non-missing 
+                       (default=NAME).
+   rule_no=            Rule number identifier. If omitted, &SYSINDEX is used.
+   auto_delete_rule=   Y/N. If Y (default), the integrity constraint is deleted 
+                       automatically after the check.
+~~~
+  
+ Process:  
+   1. Create a temporary PRIMARY KEY integrity constraint on the specified key(s).  
+      (PRIMARY KEY enforces both uniqueness and NOT NULL.)  
+   2. Check if the constraint is successfully applied.  
+   3. Output judgment results (OK/NG) with icons and formatted print.  
+   4. Optionally delete the integrity constraint.  
+   5. Write results to the SAS log for documentation.  
+  
+ Output:  
+   - A dataset named CAT_JUDGE_<rule_no> containing the judgment result.  
+   - ODS HTML/PRINT output with visual OK/NG indicators.  
+   - NOTE messages in the SAS log for traceability.  
+  
+ Example:  
+ ~~~sas
+## `%cat_unique_not_missing_judgment()` macro <a name="catuniquenotmissingjudgment-macro-3"></a> ######
+
+Macro:      cat_unique_not_missing_judgment
+
+ Purpose:    Apply a PRIMARY KEY integrity constraint on one or more key variables in a 
+             dataset and judge whether the dataset satisfies both uniqueness and 
+             non-missing requirements.
+
+ Parameters:
+   lib=                Library name (default=WORK).
+   ds=                 Dataset name (required).
+   key=                Key variable(s) to be checked for uniqueness and non-missing 
+                       (default=NAME).
+   rule_no=            Rule number identifier. If omitted, &SYSINDEX is used.
+   auto_delete_rule=   Y/N. If Y (default), the integrity constraint is deleted 
+                       automatically after the check.
+
+ Process:
+   1. Create a temporary PRIMARY KEY integrity constraint on the specified key(s).
+      (PRIMARY KEY enforces both uniqueness and NOT NULL.)
+   2. Check if the constraint is successfully applied.
+   3. Output judgment results (OK/NG) with icons and formatted print.
+   4. Optionally delete the integrity constraint.
+   5. Write results to the SAS log for documentation.
+
+ Output:
+   - A dataset named CAT_JUDGE_<rule_no> containing the judgment result.
+   - ODS HTML/PRINT output with visual OK/NG indicators.
+   - NOTE messages in the SAS log for traceability.
+
+ Example:
+~~~sas
+data class2;
+set sashelp.class;
+if _N_=2 then call missing(NAME);
+run;
+
+%cat_unique_not_missing_judgment(lib=work,ds=class2, key=name)
+~~~
+
+<img width="722" height="136" alt="image" src="https://github.com/user-attachments/assets/e42113a8-a852-4c15-8f4b-9fc3de1d8033" />
+
+  
+---
+
+## Notes on versions history
+
+- 0.1.0(08September2025): Initial version.
+
+---
+
+## What is SAS Packages?
+
+The package is built on top of **SAS Packages Framework(SPF)** developed by Bartosz Jablonski.
+
+For more information about the framework, see [SAS Packages Framework](https://github.com/yabwon/SAS_PACKAGES).
+
+You can also find more SAS Packages (SASPacs) in the [SAS Packages Archive(SASPAC)](https://github.com/SASPAC).
+
+## How to use SAS Packages? (quick start)
+
+### 1. Set-up SAS Packages Framework
+
+First, create a directory for your packages and assign a `packages` fileref to it.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+filename packages "\path\to\your\packages";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Secondly, enable the SAS Packages Framework.
+(If you don't have SAS Packages Framework installed, follow the instruction in 
+[SPF documentation](https://github.com/yabwon/SAS_PACKAGES/tree/main/SPF/Documentation) 
+to install SAS Packages Framework.)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%include packages(SPFinit.sas)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### 2. Install SAS package
+
+Install SAS package you want to use with the SPF's `%installPackage()` macro.
+
+- For packages located in **SAS Packages Archive(SASPAC)** run:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %installPackage(packageName)
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- For packages located in **PharmaForest** run:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %installPackage(packageName, mirror=PharmaForest)
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- For packages located at some network location run:
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+  %installPackage(packageName, sourcePath=https://some/internet/location/for/packages)
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  (e.g. `%installPackage(ABC, sourcePath=https://github.com/SomeRepo/ABC/raw/main/)`)
+
+
+### 3. Load SAS package
+
+Load SAS package you want to use with the SPF's `%loadPackage()` macro.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~sas
+%loadPackage(packageName)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+### Enjoy!
+
