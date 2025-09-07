@@ -36,12 +36,12 @@ A SAS macro toolkit for automated data quality control. Applies integrity constr
  %cat_rule_judgment(lib=work,ds=class, rule=%nrstr(18>age and 50 <weight) )
 ~~~
 
-<img width="313" height="71" alt="Image" src="https://github.com/user-attachments/assets/27e0aad9-8717-4d37-923e-5bff5beab9b3" />
+<img width="616" height="142" alt="Image" src="https://github.com/user-attachments/assets/27e0aad9-8717-4d37-923e-5bff5beab9b3" />
 
 ~~~sas
  %cat_rule_judgment(lib=work,ds=class, rule=%nrstr(18>age and 60 <weight) )
 ~~~
 
-<img width="304" height="70" alt="Image" src="https://github.com/user-attachments/assets/bbf9e137-dec6-46d1-bb6a-414482b1e76c" />
+<img width="608" height="140" alt="Image" src="https://github.com/user-attachments/assets/bbf9e137-dec6-46d1-bb6a-414482b1e76c" />
   
 ---
